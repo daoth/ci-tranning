@@ -24,7 +24,7 @@
     <link rel="apple-touch-icon-precomposed" href="/assets/ico/apple-touch-icon-57-precomposed.png">
   </head>
   <body>
-    <form class="form-horizontal form-login" action="" method="post">
+    <form class="form-horizontal form-login" action="<?php print $action;?>" method="post">
       <fieldset>
         <legend>System Login</legend>
         <div class="control-group">
