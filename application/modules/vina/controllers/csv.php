@@ -14,9 +14,41 @@ class csv extends MY_Controller{
         $this->load->view("upload");
     }
     public function readxls(){
-        $xls = BASEPATH."../resources/files/14excel5.xls";
+        
+        
+        //$xls = BASEPATH."../resources/files/Book1.xlsx";
+        $xls = BASEPATH."../resources/files/Book1.xls";
+        $inputFileName = realpath($xls);
         $this->load->library("PHPExcel");
-        $objPHPExcel = PHPExcel_IOFactory::load("14excel5.xls");
+        
+        
+        
+        $cacheMethod = PHPExcel_CachedObjectStorageFactory::cache_to_phpTemp;
+        $cacheSettings = array('memoryCacheSize' => '20MB');
+        //set php excel settings
+        PHPExcel_Settings::setCacheStorageMethod(
+                $cacheMethod, $cacheSettings
+        );
+        $arrayLabel = array("A", "B", "C", "D", "E");
+        //=== set object reader
+        //$objectReader = PHPExcel_IOFactory::createReader('Excel2007');
+        $objectReader = PHPExcel_IOFactory::createReader('Excel5');
+        $objectReader->setReadDataOnly(true);
+
+        $objPHPExcel = $objectReader->load($inputFileName);
+        $objWorksheet = $objPHPExcel->setActiveSheetIndexbyName('Sheet1');
+
+        $starting = 1;
+        $end = 3;
+
+        for ($i = $starting; $i <= $end; $i++) {
+
+            for ($j = 0; $j < count($arrayLabel); $j++) {
+                //== display each cell value
+                echo $objWorksheet->getCell($arrayLabel[$j] . $i)->getValue();
+            }
+        }
+
 
     }
     public function upload_xls_form(){
